@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playwrite: ["Playwrite IN"],
+        },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
