@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        #menu-bar {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #menu-bar a {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        #menu-bar a:hover {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="login-container" class="login-container">
+        <h1>Login</h1>
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Username" required>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+        <button class="btn" onclick="checkLogin()">Login</button>
+    </div>
+
+    <!-- Menu Bar (hidden by default) -->
+    <div id="menu-bar">
+        <a href="/blog">Blog</a>
+        <a href="/shop">Shop</a>
+        <a href="/video">Video</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <script>
+        // Function to check username and password
+        function checkLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Replace with your desired correct username and password
+            const correctUsername = "user123";
+            const correctPassword = "password123";
+            
+            // Check if entered username and password match the correct values
+            if(username === correctUsername && password === correctPassword) {
+                // Hide the login container and show the menu bar
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('menu-bar').style.display = 'block';
+            } else {
+                alert("Incorrect username or password. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
