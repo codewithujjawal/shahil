@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Form</title>
+    <title>{{ 'Edit Blog' if post else 'Create Blog' }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 400px;
             text-align: center;
         }
         .form-container h1 {
@@ -30,12 +30,17 @@
         .input-group {
             margin-bottom: 20px;
         }
-        .input-group input {
+        .input-group input,
+        .input-group textarea {
             width: 100%;
             padding: 10px;
             font-size: 1rem;
             border: 1px solid #ddd;
             border-radius: 5px;
+        }
+        .input-group textarea {
+            resize: vertical;
+            height: 150px;
         }
         .btn {
             background-color: #4CAF50;
@@ -55,15 +60,15 @@
 </head>
 <body>
     <div class="form-container">
-        <h1>Video Upload</h1>
-        <form action="{{ url_for('video')}}" method="post">
+        <h1>{{ 'Edit Blog Post' if post else 'Create a Blog Post' }}</h1>
+        <form action="{{ url_for('add_shop' if not post else 'edit_shop', id=post['_id'] if post else None) }}" method="post">
             <div class="input-group">
-                <input type="text" name="title" placeholder="Video Title" required>
+                <input type="text" name="title" placeholder="Blog Title" required value="{{ post['title'] if post else '' }}">
             </div>
             <div class="input-group">
-                <input type="url" name="url" placeholder="Video URL" required>
+                <input type="url" name="link" placeholder="Product Link" required value="{{ post['link'] if post else '' }}">
             </div>
-            <button type="submit" class="btn">Submit</button>
+            <button type="submit" class="btn">{{ 'Update' if post else 'Publish' }}</button>
         </form>
     </div>
 </body>
