@@ -1,5 +1,6 @@
 import Account from "../../../models/accounts";
 import connectDb from "../../../middleware/mongoose";
+var CryptoJS = require("crypto-js");
 
 // POST method handler
 export async function POST(req) {
@@ -8,12 +9,13 @@ export async function POST(req) {
     const user = await req.json(); // Parse incoming request body
 
       const account = new Account({
-        name: user.name,
-        email: user.email,
-        password: user.password,
+        name: CryptoJS.AES.encrypt(user.name, 'shahilsharma').toString(),
+        userName: user.userName,
+        email: CryptoJS.AES.encrypt(user.email, 'shahilsharma').toString(),
+        password: CryptoJS.AES.encrypt(user.password, 'shahilsharma').toString(),
       });
       console.log(account);
-      
+      // 
       await account.save();
 
     return new Response(
