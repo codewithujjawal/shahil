@@ -14,7 +14,7 @@ export async function POST(req) {
         email: CryptoJS.AES.encrypt(user.email, 'shahilsharma').toString(),
         password: CryptoJS.AES.encrypt(user.password, 'shahilsharma').toString(),
       });
-      console.log(account);
+
       // 
       await account.save();
 

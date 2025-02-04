@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,10 +10,11 @@ export default function Login() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);  // This state is important for the checkbox
 
   // Handle input changes correctly
   const handleChange = (e) => {
-    const { name, value } = e.target; // Get value from event
+    const { name, value } = e.target;
     if (name === "userName") setUserName(value);
     else if (name === "email") setEmail(value);
     else if (name === "password") setPassword(value);
@@ -42,6 +43,11 @@ export default function Login() {
         setEmail("");
         setPassword("");
 
+        // Save the token based on the remember me option
+        if (rememberMe) {
+          localStorage.setItem("token", response.token);
+        }
+
         // Show success toast
         toast.success(`Welcome back, ${name}!`, {
           position: "top-right",
@@ -63,7 +69,7 @@ export default function Login() {
         });
       }
     } catch (error) {
-      console.error("Error during submission:", error);
+      console.error("Error during submission:", error.message || error);
       toast.error("Network error. Please try again later.", {
         position: "top-right",
         autoClose: 5000,
@@ -132,6 +138,8 @@ export default function Login() {
                 id="remember"
                 type="checkbox"
                 className="w-4 h-4 border border-gray-300 rounded"
+                onChange={(e) => setRememberMe(e.target.checked)}  // Update the state correctly
+                checked={rememberMe}  // Bind the state to the checkbox
               />
               <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
                 Remember me
