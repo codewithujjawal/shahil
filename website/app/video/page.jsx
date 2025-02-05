@@ -9,25 +9,21 @@ export default function VideoGallery() {
   useEffect(() => {
     fetch("/api/getvideos") // Adjust the endpoint as needed
       .then((response) => response.json())
-      .then((data) => setVideos(data),console.log(data));
-      ) // Assuming the API returns an array
+      .then((data) => setVideos(data.videos)) // Assuming the API returns an array
       .catch((error) => console.error("Error fetching videos:", error));
   }, []);
 
   return (
     <section className="text-gray-700 body-font">
-      <div className="container px-5 py-16 mx-auto">
+      <div className="container px-6 py-10 mx-auto">
         {/* Header Section */}
         <div className="flex flex-col">
-          <div className="h-1 bg-gray-200 rounded overflow-hidden">
-            <div className="w-24 h-full bg-blue-500"></div>
-          </div>
           <div className="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-            <h1 className="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">
-              Featured Videos
+            <h1 className="sm:w-2/5 text-gray-900 text-center font-medium title-font text-2xl mb-2 sm:mb-0">
+              Videos
             </h1>
             <p className="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">
-              Watch the latest insightful videos by Mr. Shahil Sharma, breaking
+              Watch my latest insightful videos, which is crafted for breaking
               myths and exploring deep truths.
             </p>
           </div>

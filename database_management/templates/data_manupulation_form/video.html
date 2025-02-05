@@ -3,68 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        .form-container h1 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            color: #333;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>{{ 'Edit Video Post' if post else 'Create Video Post' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body>
-    <div class="form-container">
-        <h1>{{ 'Edit Video Post' if post else 'Create a Video Post' }}</h1>
-        <form action="{{ url_for('add_video' if not post else 'edit_video', id=post['_id'] if post else None) }}" method="post">
-            <div class="input-group">
-                <input type="text" name="title" placeholder="Video Title" required value="{{ post['title'] if post else '' }}">
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-semibold text-gray-800 text-center mb-6">
+            {{ 'Edit Video Post' if post else 'Create a Video Post' }}
+        </h1>
+
+        <form action="{{ url_for('add_video' if not post else 'edit_video', id=post['_id'] if post else None) }}" method="post" id="video-form">
+            <div class="mb-4">
+                <input type="text" name="title" id="title" placeholder="Video Title" required 
+                    value="{{ post['title'] if post else '' }}"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-red-500 text-sm hidden" id="title-error">Title is required.</p>
             </div>
-            <div class="input-group">
-                <input type="url" name="url" placeholder="Video Link" required value="{{ post['url'] if post else '' }}">
+            <div class="mb-6">
+                <input type="url" name="url" id="url" placeholder="Video Link" required 
+                    value="{{ post['url'] if post else '' }}"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-red-500 text-sm hidden" id="url-error">Valid video link is required.</p>
             </div>
-            <button type="submit" class="btn">{{ 'Update' if post else 'Publish' }}</button>
+            <button type="submit" 
+                class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+                {{ 'Update' if post else 'Publish' }}
+            </button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('video-form').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            const title = document.getElementById('title');
+            const url = document.getElementById('url');
+            const titleError = document.getElementById('title-error');
+            const urlError = document.getElementById('url-error');
+
+            if (!title.value.trim()) {
+                title.classList.add('border-red-500');
+                titleError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                title.classList.remove('border-red-500');
+                titleError.classList.add('hidden');
+            }
+
+            if (!url.value.trim() || !url.validity.valid) {
+                url.classList.add('border-red-500');
+                urlError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                url.classList.remove('border-red-500');
+                urlError.classList.add('hidden');
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 import "./globals.css";
-import Navbar from "./navbar";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 export const metadata = {
   title: "Shahil Sharma",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
       <body>
       <Navbar/>
         {children}
+      <Footer/>
       </body>
     </html>
   );

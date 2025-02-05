@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FaEye } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState([]);
@@ -41,7 +42,7 @@ export default function BlogPage() {
 
                 <p className="leading-relaxed text-base text-gray-600">{blog.description}</p>
 
-                <a className="mt-3 text-blue-500 inline-flex items-center hover:underline">
+                <Link href={`/blogpost/${blog.slug}`}><span className="mt-3 text-blue-500 inline-flex items-center hover:underline">
                   Read More
                   <svg
                     fill="none"
@@ -54,7 +55,7 @@ export default function BlogPage() {
                   >
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
-                </a>
+                </span></Link>
               </div>
             </div>
           ))
