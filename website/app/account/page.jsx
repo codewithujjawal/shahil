@@ -3,6 +3,6 @@ export default function Account() {
 
     return(
     <>
-    <Link href={'account/login'}>login</Link></>
+    <Link href={'/account/login'}>login</Link></>
 )
 }

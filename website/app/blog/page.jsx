@@ -18,6 +18,19 @@ export default function BlogPage() {
 
   return (
     <section className="text-gray-700 body-font">
+      {/* Header Section */}
+      <div className="flex flex-col">
+        <div className="flex flex-wrap flex-col py-6 mb-12 text-center">
+          <h1 className="text-gray-900 text-center font-medium title-font text-2xl mb-2 sm:mb-0">
+            Blog
+          </h1>
+          <p className="leading-relaxed text-base sm:pl-10 px-5">
+            Read my latest thought-provoking blogs where I dive deep into topics that matter and challenge perspectives.
+          </p>
+        </div>
+      </div>
+
+
       <div className="container px-5 py-16 mx-auto">
         {blogs.length > 0 ? (
           blogs.map((blog, index) => (
@@ -29,7 +42,7 @@ export default function BlogPage() {
                 <h2 className="text-gray-900 text-xl font-semibold mb-2">{blog.title}</h2>
 
                 {/* Blog Metrics Section */}
-                <div className="flex items-center space-x-6 text-gray-500 text-sm mb-2">
+                <div className="flex items-center space-x-6 text-gray-500 text-sm mb-2 ml-4">
                   <div className="flex items-center gap-1">
                     <FaEye className="text-blue-500" />
                     <span>{blog.views}</span>
@@ -60,11 +73,17 @@ export default function BlogPage() {
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-500">No blogs found.</p>
+          <div className="flex items-center justify-center">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+              <p className="w-full text-center text-gray-300 text-sm mt-20">
+                Loading...
+              </p>
+            </div>
+          </div>
         )}
       </div>
     </section>
   );
 }
 
-    

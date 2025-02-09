@@ -5,9 +5,13 @@ const connectDb = async () => {
     return;
   }
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to MongoDB ✅");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
+    console.error("Error connecting to MongoDB ❌:", error.message);
     throw error;
   }
 };

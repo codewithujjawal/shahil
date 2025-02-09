@@ -47,7 +47,7 @@
             <div class="mt-6">
                 <label class="block text-gray-700 font-medium mb-2">Content</label>
                 <div id="editor" class="border border-gray-300 bg-white p-2 min-h-[250px] rounded"></div>
-                <textarea name="content" id="content" hidden>{{ post['content'] if post else '' }}</textarea>
+                <textarea name="content" id="content" hidden></textarea>
             </div>
 
             <!-- Word & Character Counter -->
@@ -83,15 +83,16 @@
             }
         });
 
-        // Preload existing content if editing
+        // Preload existing content correctly
         var existingContent = `{{ post['content'] if post else '' | safe }}`;
+
         if (existingContent) {
-            quill.root.innerHTML = existingContent;
+            quill.clipboard.dangerouslyPasteHTML(existingContent);
         }
 
         // Ensure form submission contains Quill's content
         document.querySelector('form').onsubmit = function() {
-            document.querySelector('#content').value = quill.root.innerHTML;
+            document.querySelector('#content').value = quill.root.innerHTML; 
         };
 
         // Auto-save Draft Feature
@@ -99,10 +100,10 @@
             localStorage.setItem('blog_draft', quill.root.innerHTML);
         }, 5000);
 
-        // Restore draft if available
+        // Restore draft if available and no existing content
         const savedDraft = localStorage.getItem('blog_draft');
         if (savedDraft && !existingContent) {
-            quill.root.innerHTML = savedDraft;
+            quill.clipboard.dangerouslyPasteHTML(savedDraft);
         }
 
         // Word & Character Counter

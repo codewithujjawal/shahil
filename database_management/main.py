@@ -2,6 +2,8 @@ from pymongo import MongoClient
 from bson import ObjectId
 from flask import Flask, request, render_template, redirect, url_for
 import datetime
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 client = MongoClient("localhost", 27017)
@@ -111,6 +113,23 @@ def delete_video(id):
     return redirect(url_for('video'))
 
 
+def fetch_amazon_data(affiliate_link):
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    response = requests.get(affiliate_link, headers=headers)
+    
+    if response.status_code != 200:
+        return None, None
+    
+    soup = BeautifulSoup(response.text, "html.parser")
+    
+    title_tag = soup.find("span", id="productTitle")
+    title = title_tag.get_text(strip=True) if title_tag else "No title found"
+    
+    image_tag = soup.find("img", {"id": "landingImage"})
+    image_url = image_tag["src"] if image_tag else ""
+    
+    return title, image_url
+
 # Shop routes
 @app.route("/shop", methods=["GET", "POST"])
 def shop():
@@ -120,15 +139,21 @@ def shop():
 @app.route("/add_shop", methods=["GET", "POST"])
 def add_shop():
     if request.method == "POST":
-        title = request.form.get("title")
         link = request.form.get("link")
+        title, image_url = fetch_amazon_data(link)
+        
+        if not title or not image_url:
+            return "Failed to fetch product data", 400
+        
         data = {
             "title": title,
+            "image_url": image_url,
             "link": link,
             "date": datetime.datetime.now(tz=datetime.timezone.utc),
         }
         db.shops.insert_one(data)
         return redirect(url_for('shop'))
+    
     return render_template("data_manupulation_form/shop.html")
 
 @app.route("/edit_shop/<string:id>", methods=["GET", "POST"])
@@ -136,15 +161,18 @@ def edit_shop(id):
     post = db.shops.find_one({"_id": ObjectId(id)})
     
     if request.method == "POST":
-        title = request.form.get("title")
         link = request.form.get("link")
+        title, image_url = fetch_amazon_data(link)
+        
+        if not title or not image_url:
+            return "Failed to fetch product data", 400
         
         updated_data = {
             "title": title,
+            "image_url": image_url,
             "link": link,
             "date": datetime.datetime.now(tz=datetime.timezone.utc),
         }
-        
         db.shops.update_one({"_id": ObjectId(id)}, {"$set": updated_data})
         return redirect(url_for('shop'))
     
@@ -154,7 +182,6 @@ def edit_shop(id):
 def delete_shop(id):
     db.shops.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('shop'))
-
 
 if __name__ == "__main__":
     app.run(debug=True)

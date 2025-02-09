@@ -18,11 +18,11 @@ export default function VideoGallery() {
       <div className="container px-6 py-10 mx-auto">
         {/* Header Section */}
         <div className="flex flex-col">
-          <div className="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-            <h1 className="sm:w-2/5 text-gray-900 text-center font-medium title-font text-2xl mb-2 sm:mb-0">
+          <div className="flex flex-wrap flex-col py-6 mb-12 text-center">
+            <h1 className=" text-gray-900 text-center font-medium title-font text-2xl mb-2 sm:mb-0">
               Videos
             </h1>
-            <p className="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">
+            <p className="leading-relaxed text-base sm:pl-10 pl-0">
               Watch my latest insightful videos, which is crafted for breaking
               myths and exploring deep truths.
             </p>
@@ -62,7 +62,14 @@ export default function VideoGallery() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500 w-full">No videos found.</p>
+            <div className="flex items-center justify-center">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+              <p className="w-full text-center text-gray-300 text-sm mt-20">
+                Loading...
+              </p>
+            </div>
+          </div>
           )}
         </div>
       </div>

@@ -1,10 +1,11 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const BlogSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
   content: { type: String, required: true },
-}, { timestamps: true });
+  views: { type: Number, default: 0 },
+  likes: { type: Number, default: 0 }
+});
 
-const Blog = mongoose.models.Blog || mongoose.model("Blog", BlogSchema);
-export default Blog;
+export default mongoose.models.Blog || mongoose.model("Blog", BlogSchema);
